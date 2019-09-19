@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
-    'https://party-picker-backend.cloudno.de' : 'http://localhost:3000'
+    'https://party-picker.cloudno.de' : 'http://localhost:3000'
 
 Vue.config.productionTip = false
 
