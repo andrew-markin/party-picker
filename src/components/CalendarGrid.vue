@@ -44,7 +44,7 @@ export default {
     init () {
       const now = moment();
       const start = now.clone().startOf('isoWeek');
-      const end = now.clone().add(2, 'months').endOf('month').endOf('isoWeek');
+      const end = now.clone().add(11, 'weeks').endOf('isoWeek');
       const weeksCount = end.diff(start, 'weeks') + 1;
 
       var weeks = [];
