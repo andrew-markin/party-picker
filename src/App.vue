@@ -1,31 +1,43 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <b-navbar type="dark" variant="dark" sticky class="noselect">
+      <b-container>
+        <b-navbar-brand exact to="/">
+          Party Picker
+        </b-navbar-brand>
+      </b-container>
+    </b-navbar>
+    <b-container id="main">
+      <router-view/>
+    </b-container>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@font-face {
+  font-family: 'party-picker'; 
+  src: url('./assets/party-picker.ttf');
 }
-#nav {
-  padding: 30px;
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
+</style>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+<style scoped>
+.navbar {
+  padding-left: 0;
+  padding-right: 0;
 }
-
-#nav a.router-link-exact-active {
-  color: #c42c00;
+.navbar-expand > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+#main {
+  padding-top: 1rem;
 }
 </style>
