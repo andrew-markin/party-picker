@@ -5,13 +5,36 @@
         <b-navbar-brand exact to="/">
           Party Picker
         </b-navbar-brand>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto mr-1">
+            <b-nav-item @click.prevent="login">Log In</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
       </b-container>
     </b-navbar>
+    <login-modal ref="loginModal"></login-modal>
     <b-container id="main">
       <router-view/>
     </b-container>
   </div>
 </template>
+
+<script>
+
+import LoginModal from './components/LoginModal.vue'
+
+export default {
+  components: {
+    LoginModal
+  },
+  methods: {
+    login () {
+      this.$refs.loginModal.show();
+    }
+  }
+}
+
+</script>
 
 <style>
 @font-face {
