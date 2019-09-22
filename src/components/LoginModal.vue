@@ -10,7 +10,8 @@
       <b-form-group>
         <b-form-checkbox
           id="registration"
-          v-model="registration">
+          v-model="registration"
+          @change="$refs.username.select()">
           Register me as a new user
         </b-form-checkbox>
       </b-form-group>
@@ -18,15 +19,15 @@
         :state="usernameState"
         label="Username"
         label-for="username"
-        invalid-feedback="Valid username is required (acceptable: 0-9, A-Z, a-z and '-')">
+        invalid-feedback="Username must be 5-20 characters long (0-9, A-Z, a-z and '-')">
         <b-form-input
           id="username"
           ref="username"
           v-model="username"
           :state="usernameState"
           type="text" required
-          maxlength="32"
-          @keydown.enter.native="$refs.password.focus()">
+          maxlength="20"
+          @keydown.enter.native="$refs.password.select()">
         </b-form-input>
       </b-form-group>
       <b-form-group
@@ -99,7 +100,7 @@ export default {
     },
     validateInputStates () {
       // eslint-disable-next-line
-      var usernameRegex = /^[a-zA-Z0-9\-]+$/;
+      var usernameRegex = /^[a-zA-Z0-9\-]{5,20}$/;
       this.usernameState = usernameRegex.test(this.username);
       this.passwordState = this.password.length > 0;
       this.confirmationState = this.registration ? 
@@ -107,7 +108,7 @@ export default {
           undefined;
     },
     handlePasswordEnter (skipToConfirmation) {
-      if (skipToConfirmation) return this.$refs.confirmation.focus();
+      if (skipToConfirmation) return this.$refs.confirmation.select();
       this.handleSubmit()
     },
     handleOk(event) {
