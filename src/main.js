@@ -4,12 +4,17 @@ import axios from 'axios'
 
 import App from './App.vue'
 import router from './router'
+import user from './user'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
-    'https://party-picker.cloudno.de' : 'http://localhost:3000'
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND;
+
+axios.interceptors.request.use(config => {
+  if (user.token) config.headers['Authorization'] = user.token
+  return config
+})
 
 Vue.use(BootstrapVue)
 

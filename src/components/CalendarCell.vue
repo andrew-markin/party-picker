@@ -2,7 +2,8 @@
   <div 
     class="cell-container rounded"
     v-bind:class="{ 'cell-darkened': isDarkened }"
-    @click="toggleUserVote(!$event.altKey)">
+    @click="toggleUserChoice(!$event.altKey)"
+    @contextmenu.prevent="showDetails">
     <div
       class="date"
       :class="{ 'today': isToday }">
@@ -16,16 +17,18 @@
       :class="{ 'weekend': isWeekend }">
       {{ date.format('ddd') }}
     </div>
-    <div class="all-votes">
-      <span v-if="trueVotesCount > 0">
-        <span class="icon icon-smile"></span>&times;{{ trueVotesCount }}&nbsp;&nbsp;
+    <div
+      class="all-choices"
+      @click.stop="showDetails">
+      <span v-if="acceptorsCount > 0">
+        <span class="icon icon-smile"></span>&times;{{ acceptorsCount }}&nbsp;&nbsp;
       </span>
-      <span v-if="falseVotesCount > 0">
-        <span class="icon icon-sad"></span>&times;{{ falseVotesCount }}
+      <span v-if="rejectorsCount > 0">
+        <span class="icon icon-sad"></span>&times;{{ rejectorsCount }}
       </span>
     </div>
-    <div class="user-vote">
-      <span class="icon" :class="userVoteIconClass"></span>
+    <div class="user-choice">
+      <span class="icon" :class="userChoiceIconClass"></span>
     </div>
   </div>
 </template>
@@ -37,8 +40,8 @@ export default {
     'now',
     'date',
     'value',
-    'othersTrueVotesCount',
-    'othersFalseVotesCount'
+    'otherAcceptorsCount',
+    'otherRejectorsCount'
   ],
   computed: {
     isToday () {
@@ -55,22 +58,30 @@ export default {
       const weekday = this.date.isoWeekday();
       return (weekday === 6) || (weekday === 7);
     },
-    trueVotesCount () {
-      return this.othersTrueVotesCount + (this.value === true ? 1 : 0);
+    acceptorsCount () {
+      return this.otherAcceptorsCount + (this.value === true ? 1 : 0);
     },
-    falseVotesCount () {
-      return this.othersFalseVotesCount + (this.value === false ? 1 : 0);
+    rejectorsCount () {
+      return this.otherRejectorsCount + (this.value === false ? 1 : 0);
     },
-    userVoteIconClass () {
+    userChoiceIconClass () {
       if (this.value === true) return 'icon-smile';
       if (this.value === false) return 'icon-sad';
       return undefined;
     }
   },
   methods: {
-    toggleUserVote (vote) {
-      if (this.value !== vote) return this.$emit('input', vote);
+    toggleUserChoice (choice) {
+      if (this.value === null) {
+        this.$root.$emit('user-needed');
+        return;
+      }
+      this.$emit('toggle', undefined);
+      if (this.value !== choice) return this.$emit('input', choice);
       this.$emit('input', undefined);
+    },
+    showDetails () {
+      this.$emit('details');
     }
   }
 }
@@ -79,17 +90,6 @@ export default {
 
 <style scoped>
 
-.icon:before {
-  font-family: 'party-picker';
-}
-.icon-smile:before {
-  content: "\e9e2";
-  color: #5cd65c;
-}
-.icon-sad:before {
-  content: "\e9e6";
-  color: #d65c5c;
-}
 .cell-container {
   position: relative;
   background: rgb(245, 245, 245);
@@ -98,6 +98,7 @@ export default {
   font-size: 1.5em;
   flex: 1 0 auto;
   height: auto;
+  cursor: pointer;
 }
 .cell-container:before {
   content:'';
@@ -138,7 +139,7 @@ export default {
 .weekend {
   color: #a65959;
 }
-.all-votes {
+.all-choices {
   position: absolute;
   left: 0;
   right: 0;
@@ -147,7 +148,7 @@ export default {
   padding-left: 5px;
   padding-bottom: 2px;
 }
-.user-vote {
+.user-choice {
   font-size: 17px;
   padding-top: 1px;
   padding-left: 5px;
@@ -165,12 +166,12 @@ export default {
     padding-top: 2px;
     padding-right: 5px;
   }
-  .all-votes {
+  .all-choices {
     font-size: 9px;
     padding-left: 5px;
     padding-bottom: 2px;
   }
-  .user-vote {
+  .user-choice {
     font-size: 17px;
     padding-top: 1px;
     padding-left: 5px;
@@ -187,12 +188,12 @@ export default {
     padding-top: 3px;
     padding-right: 7px;
   }
-  .all-votes {
+  .all-choices {
     font-size: 12px;
     padding-left: 7px;
     padding-bottom: 4px;
   }
-  .user-vote {
+  .user-choice {
     font-size: 23px;
     padding-top: 1px;
     padding-left: 7px;
@@ -209,12 +210,12 @@ export default {
     padding-top: 4px;
     padding-right: 10px;
   }
-  .all-votes {
+  .all-choices {
     font-size: 15px;
     padding-left: 9px;
     padding-bottom: 5px;
   }
-  .user-vote {
+  .user-choice {
     font-size: 30px;
     padding-left: 9px;
   }
@@ -229,12 +230,12 @@ export default {
     padding-top: 4px;
     padding-right: 10px;
   }
-  .all-votes {
+  .all-choices {
     font-size: 18px;
     padding-left: 11px;
     padding-bottom: 5px;
   }
-  .user-vote {
+  .user-choice {
     font-size: 36px;
     padding-left: 11px;
   }
