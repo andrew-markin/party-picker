@@ -39,12 +39,12 @@ export default {
       name: '',
       nameState: undefined,
       isBusy: false,
-      isFailed: false,
+      isFailed: false
     }
   },
   computed: {
     formIsValid () {
-      return this.nameState;
+      return this.nameState
     }
   },
   methods: {
@@ -52,28 +52,28 @@ export default {
       this.$refs.modal.show()
     },
     resetModal () {
-      this.name = '';
-      this.resetInputStates();
-      var nameInput = this.$refs.name;
-      if (nameInput) nameInput.focus();
-      this.isBusy = false;
-      this.isFailed = false;
+      this.name = ''
+      this.resetInputStates()
+      var nameInput = this.$refs.name
+      if (nameInput) nameInput.focus()
+      this.isBusy = false
+      this.isFailed = false
     },
     resetInputStates () {
-      this.nameState = undefined;
+      this.nameState = undefined
     },
     validateInputStates () {
-      this.nameState = this.name.length >= 5;
+      this.nameState = this.name.length >= 5
     },
-    handleOk(event) {
-      event.preventDefault();
-      this.handleSubmit();
+    handleOk (event) {
+      event.preventDefault()
+      this.handleSubmit()
     },
     handleSubmit () {
-      this.validateInputStates();
-      if (!this.formIsValid || this.isBusy) return;
-      this.isBusy = true;
-      this.isFailed = false;
+      this.validateInputStates()
+      if (!this.formIsValid || this.isBusy) return
+      this.isBusy = true
+      this.isFailed = false
       axios.post('/parties', {
         name: this.name
       }).then(res => {
@@ -81,12 +81,12 @@ export default {
         this.$router.push({
           name: 'party',
           params: { id: res.data.party.id }
-        });
-        this.$refs.modal.hide();
+        })
+        this.$refs.modal.hide()
       }).catch(err => {
         this.isBusy = false
         this.isFailed = true
-        this.$refs.name.select();
+        this.$refs.name.select()
         console.log('Party creation error:', err.message)
       })
     }

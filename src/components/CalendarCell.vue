@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="cell-container rounded"
     v-bind:class="{ 'cell-darkened': isDarkened }"
     @click="toggleUserChoice(!$event.altKey)"
@@ -45,43 +45,43 @@ export default {
   ],
   computed: {
     isToday () {
-      return this.date.isSame(this.now, 'day');
+      return this.date.isSame(this.now, 'day')
     },
     isDarkened () {
-      return this.date.month() % 2 !== this.now.month() % 2;
+      return this.date.month() % 2 !== this.now.month() % 2
     },
     monthNameIsRequired () {
-      const start = this.now.clone().startOf('isoWeek');
-      return (this.date.date() === 1) || this.date.isSame(start, 'day');
+      const start = this.now.clone().startOf('isoWeek')
+      return (this.date.date() === 1) || this.date.isSame(start, 'day')
     },
     isWeekend () {
-      const weekday = this.date.isoWeekday();
-      return (weekday === 6) || (weekday === 7);
+      const weekday = this.date.isoWeekday()
+      return (weekday === 6) || (weekday === 7)
     },
     acceptorsCount () {
-      return this.otherAcceptorsCount + (this.value === true ? 1 : 0);
+      return this.otherAcceptorsCount + (this.value === true ? 1 : 0)
     },
     rejectorsCount () {
-      return this.otherRejectorsCount + (this.value === false ? 1 : 0);
+      return this.otherRejectorsCount + (this.value === false ? 1 : 0)
     },
     userChoiceIconClass () {
-      if (this.value === true) return 'icon-smile';
-      if (this.value === false) return 'icon-sad';
-      return undefined;
+      if (this.value === true) return 'icon-smile'
+      if (this.value === false) return 'icon-sad'
+      return undefined
     }
   },
   methods: {
     toggleUserChoice (choice) {
       if (this.value === null) {
-        this.$root.$emit('user-needed');
-        return;
+        this.$root.$emit('user-needed')
+        return
       }
-      this.$emit('toggle', undefined);
-      if (this.value !== choice) return this.$emit('input', choice);
-      this.$emit('input', undefined);
+      this.$emit('toggle', undefined)
+      if (this.value !== choice) return this.$emit('input', choice)
+      this.$emit('input', undefined)
     },
     showDetails () {
-      this.$emit('details');
+      this.$emit('details')
     }
   }
 }

@@ -100,22 +100,22 @@ export default {
       nameIsAlreadyInUse: undefined,
       nameOrPasswordAreWrong: undefined,
       isBusy: false,
-      isFailed: false,
+      isFailed: false
     }
   },
   computed: {
     formIsValid () {
       return this.nameState && this.passwordState &&
-          (!this.registration || this.confirmationState);
+          (!this.registration || this.confirmationState)
     }
   },
   watch: {
-    name: function() {
-      this.nameIsAlreadyInUse = false;
-      this.nameOrPasswordAreWrong = false;
+    name: function () {
+      this.nameIsAlreadyInUse = false
+      this.nameOrPasswordAreWrong = false
     },
-    password: function() {
-      this.nameOrPasswordAreWrong = false;
+    password: function () {
+      this.nameOrPasswordAreWrong = false
     }
   },
   methods: {
@@ -123,43 +123,43 @@ export default {
       this.$refs.modal.show()
     },
     resetModal () {
-      this.name = '';
-      this.password = '';
-      this.confirmation = '';
-      this.registration = false;
-      this.nameState = undefined;
-      this.passwordState = undefined;
-      this.confirmationState = undefined;
-      this.nameIsAlreadyInUse = false;
-      this.nameOrPasswordAreWrong = false;
-      var nameInput = this.$refs.name;
-      if (nameInput) nameInput.focus();
-      this.isBusy = false;
-      this.isFailed = false;
+      this.name = ''
+      this.password = ''
+      this.confirmation = ''
+      this.registration = false
+      this.nameState = undefined
+      this.passwordState = undefined
+      this.confirmationState = undefined
+      this.nameIsAlreadyInUse = false
+      this.nameOrPasswordAreWrong = false
+      var nameInput = this.$refs.name
+      if (nameInput) nameInput.focus()
+      this.isBusy = false
+      this.isFailed = false
     },
     validateInputStates () {
       // eslint-disable-next-line
-      var nameRegex = /^[a-zA-Z0-9\-]{5,20}$/;
-      this.nameState = nameRegex.test(this.name);
-      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_@$!%*?&])[A-Za-z\d_@$!%*?&]{8,32}$/;
-      this.passwordState = passwordRegex.test(this.password);
-      this.confirmationState = this.registration ? 
-          (this.confirmation.length > 0) && (this.password === this.confirmation) : 
-          undefined;
+      var nameRegex = /^[a-zA-Z0-9\-]{5,20}$/
+      this.nameState = nameRegex.test(this.name)
+      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_@$!%*?&])[A-Za-z\d_@$!%*?&]{8,32}$/
+      this.passwordState = passwordRegex.test(this.password)
+      this.confirmationState = this.registration
+        ? (this.confirmation.length > 0) && (this.password === this.confirmation)
+        : undefined
     },
     handlePasswordEnter (skipToConfirmation) {
-      if (skipToConfirmation) return this.$refs.confirmation.select();
+      if (skipToConfirmation) return this.$refs.confirmation.select()
       this.handleSubmit()
     },
-    handleOk(event) {
-      event.preventDefault();
-      this.handleSubmit();
+    handleOk (event) {
+      event.preventDefault()
+      this.handleSubmit()
     },
     handleSubmit () {
-      this.validateInputStates();
-      if (!this.formIsValid || this.isBusy) return;
-      this.isBusy = true;
-      this.isFailed = false;
+      this.validateInputStates()
+      if (!this.formIsValid || this.isBusy) return
+      this.isBusy = true
+      this.isFailed = false
       if (this.registration) {
         axios.post('/users', {
           name: this.name,
@@ -167,17 +167,17 @@ export default {
         }).then(res => {
           this.isBusy = false
           if (!res.data.success) {
-            this.$refs.name.select();
-            this.nameIsAlreadyInUse = true;
-            return;
+            this.$refs.name.select()
+            this.nameIsAlreadyInUse = true
+            return
           }
-          user.setToken(res.data.token);
-          this.$refs.modal.hide();
+          user.setToken(res.data.token)
+          this.$refs.modal.hide()
         }).catch(err => {
           this.isBusy = false
           this.isFailed = true
-          this.$refs.name.select();
-          console.log('User registration error:', err.message);
+          this.$refs.name.select()
+          console.log('User registration error:', err.message)
         })
       } else {
         axios.post('/users/auth', {
@@ -186,17 +186,17 @@ export default {
         }).then(res => {
           this.isBusy = false
           if (!res.data.success) {
-            this.$refs.name.select();
-            this.nameOrPasswordAreWrong = true;
-            return;
+            this.$refs.name.select()
+            this.nameOrPasswordAreWrong = true
+            return
           }
-          user.setToken(res.data.token);
-          this.$refs.modal.hide();
+          user.setToken(res.data.token)
+          this.$refs.modal.hide()
         }).catch(err => {
           this.isBusy = false
           this.isFailed = true
-          this.$refs.name.select();
-          console.log('User authentication error:', err.message);
+          this.$refs.name.select()
+          console.log('User authentication error:', err.message)
         })
       }
     }

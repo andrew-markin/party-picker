@@ -31,13 +31,13 @@
 
 <script>
 
-import LoginModal from './components/LoginModal.vue';
-import PartyModal from './components/PartyModal.vue';
+import LoginModal from './components/LoginModal.vue'
+import PartyModal from './components/PartyModal.vue'
 
 import user from './user'
 
 export default {
-  data() {
+  data () {
     return {
       user: user.name
     }
@@ -48,22 +48,22 @@ export default {
   },
   methods: {
     login () {
-      this.$refs.loginModal.show();
+      this.$refs.loginModal.show()
     },
     logout () {
-      user.resetToken();
+      user.resetToken()
     },
     party () {
-      this.$refs.partyModal.show();
+      this.$refs.partyModal.show()
     }
   },
   created () {
     this.$root.$on('user-needed', () => {
-      this.login();
-    });
+      this.login()
+    })
     user.$on('changed', () => {
-      this.user = user.name;
-    });
+      this.user = user.name
+    })
   }
 }
 
@@ -71,7 +71,7 @@ export default {
 
 <style>
 @font-face {
-  font-family: 'party-picker'; 
+  font-family: 'party-picker';
   src: url('./assets/party-picker.ttf');
 }
 .icon {

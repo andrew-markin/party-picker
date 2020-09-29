@@ -9,9 +9,10 @@ import user from './user'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-axios.defaults.baseURL = process.env.VUE_APP_BACKEND;
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND
 
 axios.interceptors.request.use(config => {
+  // eslint-disable-next-line dot-notation
   if (user.token) config.headers['Authorization'] = user.token
   return config
 })

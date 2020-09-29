@@ -34,20 +34,20 @@ export default {
   },
   computed: {
     title () {
-      return this.date ? this.date.format('MMMM D, YYYY') : '';
+      return this.date ? this.date.format('MMMM D, YYYY') : ''
     }
   },
   methods: {
     show (proposition) {
-      this.date = proposition.date;
-      this.acceptors = proposition.acceptors;
-      this.rejectors = proposition.rejectors;
+      this.date = proposition.date
+      this.acceptors = proposition.acceptors
+      this.rejectors = proposition.rejectors
       this.$refs.modal.show()
     },
     resetModal () {
-      this.date = undefined;
-      this.acceptors = [];
-      this.rejectors = [];
+      this.date = undefined
+      this.acceptors = []
+      this.rejectors = []
     }
   }
 }

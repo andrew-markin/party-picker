@@ -24,10 +24,10 @@ export default {
     return {
       id: undefined,
       name: undefined
-    };
+    }
   },
   watch: {
-    '$route.params.id': function() {
+    '$route.params.id': function () {
       this.refresh()
     }
   },
@@ -36,17 +36,17 @@ export default {
   },
   methods: {
     refresh () {
-      this.id = this.$route.params.id;
+      this.id = this.$route.params.id
       axios.get(`/parties/${this.id}`).then(res => {
-        this.name = res.data.party.name;
+        this.name = res.data.party.name
       }).catch(err => {
-        console.log('Party receiving error', err.message);
-        this.$router.replace({ name: 'about' });
-      });
+        console.log('Party receiving error', err.message)
+        this.$router.replace({ name: 'about' })
+      })
     }
   },
   mounted () {
-    this.refresh();
+    this.refresh()
   }
 }
 
